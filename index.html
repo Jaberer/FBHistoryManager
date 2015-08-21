@@ -72,13 +72,22 @@
         console.log(post.id + ": " + post.message);
       }
     }
-    
+    // can i call FB.api(nextPage, getPosts); ??
+    if(i < 2)
+    {
+      nextPage = response.paging.next;        
+      console.log(nextPage);
+      i++;
+      //Method 1: HTTP GET 
+      $.get(nextPage, getPosts, "json"); //optional: $.getJSON can be use instead
+    }
+
     
     $(document).ready(function()
     {
       
-      
-        FB.api('/me/home',{since:'yesterday','limit': '3'}, getPosts);
+      /** FB.api request */
+      FB.api('/me/home',{since:'yesterday','limit': '3'}, getPosts);
            
     });
     
