@@ -97,7 +97,8 @@
     // can i call FB.api(nextPage, getPosts); ??
     if(i < 2)
     {
-      nextPage = response.paging.next;        
+      //nextPage = response.paging.next;
+      nextPage = FB.api(nextPage, getPosts);        
       console.log(nextPage);
       i++;
       //Method 1: HTTP GET 
