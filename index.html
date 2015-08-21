@@ -66,6 +66,8 @@
   <script src="js/fbLogin.js"></script>
   -->
   <script>
+    var FB;
+    
       /** FB Init */
     window.fbAsyncInit = function() 
     {
@@ -75,7 +77,13 @@
         xfbml      : true,
         version    : 'v2.4'
       });
+      
+      if (typeof facebookInit == 'function')
+      {
+        webScript();
+      }
     };
+    
     
     (function(d, s, id)
     {
@@ -87,52 +95,55 @@
     }
     (document, 'script', 'facebook-jssdk'));
     
-        
-    /* global FB */
-    FB.getLoginStatus(function(response) 
-    {
-      if (response.status === 'connected') 
-      {
-        console.log('Logged in.');
-      }
-      else 
-      {
-        // this is the basic login
-        // FB.login();
-        // but we want publish_actions so we can delete posts
-        FB.login(function(){}, {scope: 'publish_actions'});
-      }
-    });
-    
-    var i = 0;
-    var getPosts = function(response)
-    {
-      for (object in response.data)
-      {
-        post = response.data[object];
-        console.log(post.id + ": " + post.message);
-      }
-    }
-    // can i call FB.api(nextPage, getPosts); ??
-    if(i < 2)
-    {
-      //nextPage = response.paging.next;
-      nextPage = FB.api(nextPage, getPosts);        
-      console.log(nextPage);
-      i++;
-      //Method 1: HTTP GET 
-      $.get(nextPage, getPosts, "json"); //optional: $.getJSON can be use instead
-    }
-
-    
-    $(document).ready(function()
-    {
+       function webScript()
+       {
+         
+          /* global FB */
+          FB.getLoginStatus(function(response) 
+          {
+            if (response.status === 'connected') 
+            {
+              console.log('Logged in.');
+            }
+            else 
+            {
+              // this is the basic login
+              // FB.login();
+              // but we want publish_actions so we can delete posts
+              FB.login(function(){}, {scope: 'publish_actions'});
+            }
+          });
+          
+          var i = 0;
+          var getPosts = function(response)
+          {
+            for (object in response.data)
+            {
+              post = response.data[object];
+              console.log(post.id + ": " + post.message);
+            }
+          }
+          // can i call FB.api(nextPage, getPosts); ??
+          if(i < 2)
+          {
+            //nextPage = response.paging.next;
+            nextPage = FB.api(nextPage, getPosts);        
+            console.log(nextPage);
+            i++;
+            //Method 1: HTTP GET 
+            $.get(nextPage, getPosts, "json"); //optional: $.getJSON can be use instead
+          }
+          
+          
+          $(document).ready(function()
+          {
+            
+            /** FB.api request */
+            FB.api('/me/home',{since:'yesterday','limit': '3'}, getPosts);
+                
+          });
       
-      /** FB.api request */
-      FB.api('/me/home',{since:'yesterday','limit': '3'}, getPosts);
-           
-    });
-    
+       } 
     
   </script>
 </html>
