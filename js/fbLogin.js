@@ -5,7 +5,11 @@ FB.getLoginStatus(function(response)
   {
     console.log('Logged in.');
   }
-  else {
-    FB.login();
+  else 
+  {
+    // this is the basic login
+    // FB.login();
+    // but we want publish_actions so we can delete posts
+    FB.login(function(){}, {scope: 'publish_actions'});
   }
 });

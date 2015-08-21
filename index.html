@@ -62,4 +62,26 @@
   </body>
   <script src="js/fbSDK.js"></script>
   <script src="js/fbLogin.js"></script>
+  <script>
+    var i = 0;
+    var getPosts = function(response)
+    {
+      for (object in response.data)
+      {
+        post = response.data[object];
+        console.log(post.id + ": " + post.message);
+      }
+    }
+    
+    
+    $(document).ready(function()
+    {
+      
+      
+        FB.api('/me/home',{since:'yesterday','limit': '3'}, getPosts);
+           
+    });
+    
+    
+  </script>
 </html>
